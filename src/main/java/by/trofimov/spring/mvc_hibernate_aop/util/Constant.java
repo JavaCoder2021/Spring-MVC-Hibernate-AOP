@@ -9,4 +9,7 @@ public class Constant {
     public static final String FROM_EMPLOYEE = "FROM Employee";
     public static final String DELETE_FROM_EMPLOYEE = "DELETE FROM Employee WHERE id = ";
 
+    public static final String BEGIN_OF = "Begin of ";
+    public static final String END_OF = "End of ";
+
 }
