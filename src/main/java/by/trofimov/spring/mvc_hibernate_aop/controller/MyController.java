@@ -19,6 +19,11 @@ public class MyController {
     @Autowired
     private EmloyeeService emloyeeService;
 
+    @ModelAttribute("department")
+    public Department[] addDepartmentsToModel() {
+        return Department.values();
+    }
+
     @RequestMapping("/")
     public String showAllEmployees(Model model) {
         List<Employee> employees = emloyeeService.getAllEmployees();
@@ -28,14 +33,12 @@ public class MyController {
 
     @RequestMapping("/addNewEmployee")
     public String addNewEmployee(Model model) {
-        addEnumsInModel(model);
         model.addAttribute("employee", new Employee());
         return "employee_info";
     }
 
     @RequestMapping("/updateEmployee")
     public String updateEmployee(@RequestParam("id") int id, Model model) {
-        addEnumsInModel(model);
         Employee employee = emloyeeService.getEmployee(id);
         model.addAttribute("employee", employee);
         return "employee_info";
@@ -52,17 +55,12 @@ public class MyController {
                                BindingResult bindingResult, Model model) {
         String view;
         if (bindingResult.hasErrors()) {
-            addEnumsInModel(model);
             view = "employee_info";
         } else {
             emloyeeService.saveOrUpdateEmployee(employee);
             view = "redirect:/";
         }
         return view;
-    }
-
-    private void addEnumsInModel(Model model) {
-        model.addAttribute("department", Department.values());
     }
 
 }
