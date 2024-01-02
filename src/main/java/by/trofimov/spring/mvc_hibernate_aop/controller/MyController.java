@@ -4,7 +4,7 @@ import java.util.List;
 import javax.validation.Valid;
 import by.trofimov.spring.mvc_hibernate_aop.entity.Department;
 import org.springframework.ui.Model;
-import by.trofimov.spring.mvc_hibernate_aop.service.EmloyeeService;
+import by.trofimov.spring.mvc_hibernate_aop.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import by.trofimov.spring.mvc_hibernate_aop.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MyController {
 
     @Autowired
-    private EmloyeeService emloyeeService;
+    private EmployeeService employeeService;
 
     @ModelAttribute("department")
     public Department[] addDepartmentsToModel() {
@@ -26,7 +26,7 @@ public class MyController {
 
     @RequestMapping("/")
     public String showAllEmployees(Model model) {
-        List<Employee> employees = emloyeeService.getAllEmployees();
+        List<Employee> employees = employeeService.getAllEmployees();
         model.addAttribute("employees", employees);
         return "all_employees";
     }
@@ -39,14 +39,14 @@ public class MyController {
 
     @RequestMapping("/updateEmployee")
     public String updateEmployee(@RequestParam("id") int id, Model model) {
-        Employee employee = emloyeeService.getEmployee(id);
+        Employee employee = employeeService.getEmployee(id);
         model.addAttribute("employee", employee);
         return "employee_info";
     }
 
     @RequestMapping("/deleteEmployee")
     public String deleteEmployee(@RequestParam("id") int id) {
-        emloyeeService.deleteEmployee(id);
+        employeeService.deleteEmployee(id);
         return "redirect:/";
     }
 
@@ -57,7 +57,7 @@ public class MyController {
         if (bindingResult.hasErrors()) {
             view = "employee_info";
         } else {
-            emloyeeService.saveOrUpdateEmployee(employee);
+            employeeService.saveOrUpdateEmployee(employee);
             view = "redirect:/";
         }
         return view;
